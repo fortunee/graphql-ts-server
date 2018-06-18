@@ -3,16 +3,20 @@
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
    "devDependencies": {
-      "ts-node": "6.1.1",
       "@types/node": "^10.3.3",
+      "nodemon": "^1.17.5",
+      "ts-node": "6.1.1",
+      "tslint": "^5.10.0",
+      "tslint-config-prettier": "^1.13.0",
       "typescript": "2.9.2"
    },
    "dependencies": {
-      "typeorm": "0.2.7",
+      "graphql-yoga": "^1.14.8",
+      "pg": "^7.3.0",
       "reflect-metadata": "^0.1.10",
-      "pg": "^7.3.0"
+      "typeorm": "0.2.7"
    },
    "scripts": {
-      "start": "ts-node src/index.ts"
+      "start": "nodemon --exec ts-node src/index.ts"
    }
 }
