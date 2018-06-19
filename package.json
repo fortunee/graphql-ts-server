@@ -27,9 +27,10 @@
       "uuid": "^3.2.1"
    },
    "scripts": {
-      "start": "nodemon --exec ts-node src/index.ts",
-      "gen-schema-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts",
-      "test": "jest"
+      "start": "NODE_ENV=develop nodemon --exec ts-node src/index.ts",
+      "test-server": "NODE_ENV=test ts-node src/index.ts",
+      "test": "NODE_ENV=test jest",
+      "gen-sche ma-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts"
    },
    "jest": {
       "transform": {

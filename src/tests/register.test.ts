@@ -1,8 +1,12 @@
 import { request } from 'graphql-request';
 
 import { host } from "./constants";
-import { createConnection } from 'typeorm';
 import { User } from '../entity/User';
+import { createTypeormConn } from '../utils/createTypeormConn';
+
+beforeAll(async () => {
+    await createTypeormConn();
+})
 
 const email = 'fortune@fortune.com';
 const password = 'pass123';
@@ -20,10 +24,9 @@ const mutation = `
  * test script should also start server before test starts running
  * Avoid createConnection()
  */
-test('adds 1 + 2 to equal 3', async() => {
+test('Ensures a user is registered', async() => {
     const response = await request(host, mutation);
     expect(response).toEqual({ register: true });
-    await createConnection();
     const users = await User.find({ where: { email }});
     const user = users[0];
     expect(user.email).toEqual(email);
