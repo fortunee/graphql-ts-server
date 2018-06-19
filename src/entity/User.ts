@@ -1,21 +1,21 @@
-import {Entity, Column, BeforeInsert, PrimaryColumn} from "typeorm";
-import * as uuid from 'uuid/v4';
+import {Entity, Column, BeforeInsert, PrimaryColumn, BaseEntity} from 'typeorm';
+import * as uuidv4 from 'uuid/v4';
 
 @Entity()
-export class User  {
+export class User extends BaseEntity {
 
     @PrimaryColumn("uuid")
     id: string;
 
-    @Column()
+    @Column('varchar', { length: 255 })
     email: string;
 
-    @Column()
+    @Column('text')
     password: string;
 
     @BeforeInsert()
     setId() {
-        this.id = uuid()
+        this.id = uuidv4()
     }
 
 }
