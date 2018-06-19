@@ -19,6 +19,7 @@
    "dependencies": {
       "bcryptjs": "^2.4.3",
       "graphql-import": "^0.6.0",
+      "graphql-request": "^1.6.0",
       "graphql-yoga": "^1.14.8",
       "pg": "^7.3.0",
       "reflect-metadata": "^0.1.10",
@@ -31,8 +32,17 @@
       "test": "jest"
    },
    "jest": {
-     "transform": { "^.+\\.tsx?$": "ts-jest" },
-     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-     "moduleFileExtensions": [ "ts",  "tsx", "js", "jsx","json", "node" ]
+      "transform": {
+         "^.+\\.tsx?$": "ts-jest"
+      },
+      "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+      "moduleFileExtensions": [
+         "ts",
+         "tsx",
+         "js",
+         "jsx",
+         "json",
+         "node"
+      ]
    }
 }
