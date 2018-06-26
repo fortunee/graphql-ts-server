@@ -1,0 +1,3 @@
+ctype Mutation {
+  register(email: String!, password: String!): Boolean
+}
