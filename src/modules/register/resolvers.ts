@@ -13,6 +13,7 @@ export const resolvers: ResolverMap = {
                 where: { email },
                 select: ['id']
             });
+
             if (userExists) {
                 return [
                     {
@@ -21,6 +22,7 @@ export const resolvers: ResolverMap = {
                     }
                 ]
             }
+
             const hashedPassword = await bcrypt.hash(password, 10);
             const user = User.create({
                 email,
@@ -28,7 +30,7 @@ export const resolvers: ResolverMap = {
             });
 
             await user.save();
-            return true; 
+            return null;
         },
     }
 } 
