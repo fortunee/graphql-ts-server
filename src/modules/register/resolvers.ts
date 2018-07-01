@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { ResolverMap } from '../../types/graphql.utils';
 import { User } from '../../entity/User';
 import { formatYupError } from '../../utils/formatYupError';
+import { duplicateEmail } from './errorMessages';
 
 const schema = yup.object().shape({
     email: yup.string().min(3).max(255).email(),
@@ -31,7 +32,7 @@ export const resolvers: ResolverMap = {
                 return [
                     {
                         path: 'email',
-                        message: 'already taken'
+                        message: duplicateEmail
                     }
                 ]
             }
