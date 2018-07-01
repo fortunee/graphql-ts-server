@@ -1,7 +1,7 @@
 import { request } from 'graphql-request';
 import { User } from '../../entity/User';
 import { startServer } from '../../startServer';
-import { duplicateEmail, emailTooShort, invalidEmail } from './errorMessages';
+import { duplicateEmail, emailTooShort, invalidEmail, invalidPassword } from './errorMessages';
 
 let getHost = () => '';
 
@@ -52,6 +52,17 @@ test('Ensures a user is registered', async() => {
             {
                 path: 'email',
                 message: invalidEmail,
+            }
+        ]
+    });
+
+    // Ensures invalid password should fail
+    const response4: any = await request(getHost(), mutation(email, "fo"));
+    expect(response4).toEqual({
+        register: [
+            {
+                path: 'password',
+                message: invalidPassword,
             }
         ]
     });
