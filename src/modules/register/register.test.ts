@@ -67,4 +67,23 @@ test('Ensures a user is registered', async() => {
         ]
     });
 
+    // Ensures short and invalid email with invalid password should fail
+    const response5: any = await request(getHost(), mutation("f", "fo"));
+    expect(response5).toEqual({
+        register: [
+            {
+                path: 'email',
+                message: emailTooShort,
+            },
+            {
+                path: 'email',
+                message: invalidEmail,
+            },
+            {
+                path: 'password',
+                message: invalidPassword,
+            }
+        ]
+    });
+
 });
