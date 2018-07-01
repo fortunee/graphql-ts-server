@@ -3,10 +3,10 @@ import * as yup from 'yup';
 import { ResolverMap } from '../../types/graphql.utils';
 import { User } from '../../entity/User';
 import { formatYupError } from '../../utils/formatYupError';
-import { duplicateEmail } from './errorMessages';
+import { duplicateEmail, emailTooShort } from './errorMessages';
 
 const schema = yup.object().shape({
-    email: yup.string().min(3).max(255).email(),
+    email: yup.string().min(3, emailTooShort ).max(255).email(),
     password: yup.string().min(3).max(255)
 });
 
