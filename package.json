@@ -38,6 +38,7 @@
       "gen-sche ma-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts"
    },
    "jest": {
+       "globalSetup": "./src/test/initSetup.js",
       "transform": {
          "^.+\\.tsx?$": "ts-jest"
       },
