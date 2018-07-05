@@ -4,6 +4,7 @@ import { ResolverMap } from '../../types/graphql.utils';
 import { User } from '../../entity/User';
 import { formatYupError } from '../../utils/formatYupError';
 import { duplicateEmail, emailTooShort, invalidEmail, invalidPassword } from './errorMessages';
+import { createConfirmEmailLink } from '../../utils/CreateConfirmEmailLink';
 
 const schema = yup.object().shape({
     email: yup.string().min(3, emailTooShort).max(255).email(invalidEmail),
@@ -16,7 +17,7 @@ export const resolvers: ResolverMap = {
     },
 
     Mutation: {
-        register: async (_, args: GQL.IRegisterOnMutationArguments) => {
+        register: async (_, args: GQL.IRegisterOnMutationArguments, { redis, url }) => {
             try {
                 await schema.validate(args, { abortEarly: false });
             } catch (error) {
@@ -44,6 +45,8 @@ export const resolvers: ResolverMap = {
             });
 
             await user.save();
+
+            const link = await createConfirmEmailLink(url, user.id, redis);
             return null;
         },
     }
