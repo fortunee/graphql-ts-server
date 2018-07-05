@@ -1,6 +1,7 @@
 import { request } from 'graphql-request';
 import { User } from '../../entity/User';
 import { duplicateEmail, emailTooShort, invalidEmail, invalidPassword } from './errorMessages';
+import { createTypeormConn } from '../../utils/createTypeormConn';
 
 const email = 'fortune@fortune.com';
 const password = 'pass123';
@@ -13,6 +14,10 @@ const mutation = (e: string, p: string) => `
         }
     }
 `;
+
+beforeAll(async() => {  
+    await createTypeormConn();
+})
 
 describe('Register user', async() => {
     it('Ensures a user is registered', async() => {
