@@ -40,7 +40,7 @@ describe('Email Confirmation Link', () => {
         const chunks = link.split('/');
         const key = chunks[chunks.length - 1];
         const value = await redis.get(key);
-        expect(value).toBeUndefined();
+        expect(value).toBeNull();
     })
 
 })
