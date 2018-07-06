@@ -36,4 +36,11 @@ describe('Email Confirmation Link', () => {
         expect((user as User).confirmed).toBeTruthy();
     })
 
+    it('Ensures userId is removed from redis after confirmation', async () => {
+        const chunks = link.split('/');
+        const key = chunks[chunks.length - 1];
+        const value = await redis.get(key);
+        expect(value).toBeUndefined();
+    })
+
 })
