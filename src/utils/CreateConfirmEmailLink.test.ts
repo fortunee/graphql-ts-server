@@ -1,5 +1,7 @@
+import * as Redis from 'ioredis';
 import { createTypeormConn } from "./createTypeormConn";
 import { User } from "../entity/User";
+import { createConfirmEmailLink } from "./CreateConfirmEmailLink";
 
 let userId = '';
 
@@ -15,7 +17,11 @@ describe('Email Confirmation Link', () => {
     });
 
     it('Ensures createConfirmationLink works', () => {
-        
-    })
+        const link = createConfirmEmailLink(
+            process.env.TEST_HOST as string,
+            userId,
+            new Redis()
+        )
+    });
 })
 
