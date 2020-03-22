@@ -1,18 +1,17 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, Column, BaseEntity, PrimaryGeneratedColumn} from 'typeorm';
 
-@Entity()
-export class User {
+@Entity('users')
+export class User extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
-    @Column()
-    firstName: string;
+    @Column('varchar', { length: 255 })
+    email: string;
 
-    @Column()
-    lastName: string;
+    @Column('text')
+    password: string;
 
-    @Column()
-    age: number;
-
+    @Column('boolean', { default: false })
+    confirmed: boolean;
 }
