@@ -36,7 +36,7 @@ export const startServer = async () => {
             await redis.del(id);
             res.status(200).send('User confirmed');
         } else {
-            res.send('Invalid confrimation link')
+            res.status(400).send('Invalid confrimation link')
         }
     })
 
