@@ -34,9 +34,9 @@ export const startServer = async () => {
         if (userId) {
             await User.update({ id: userId }, { confirmed: true });
             await redis.del(id);
-            res.send('User confirmed');
+            res.status(200).send('User confirmed');
         } else {
-            res.send('Invalid confrimation link')
+            res.status(400).send('Invalid confrimation link')
         }
     })
 
