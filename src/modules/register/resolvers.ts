@@ -33,12 +33,12 @@ export const resolvers: ResolverMap = {
         return formatYupError(error);
       }
       const { email, password } = args;
-      const userExists = await User.findOne({
+      const isExistingUser = await User.findOne({
         where: { email },
         select: ['id'],
       });
 
-      if (userExists) {
+      if (isExistingUser) {
         return [
           {
             path: 'email',
