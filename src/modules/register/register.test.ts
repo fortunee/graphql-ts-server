@@ -44,7 +44,8 @@ describe('Register user', async () => {
       mutation(email, password)
     );
     expect(response2.register).toHaveLength(1);
-    expect(response2.register[0]).toEqual({
+    const [ errorMsg ] = response2.register;
+    expect(errorMsg).toEqual({
       path: 'email',
       message: duplicateEmail,
     });
