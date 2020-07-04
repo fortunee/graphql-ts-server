@@ -9,7 +9,7 @@ import * as Redis from 'ioredis';
 import { createTypeormConn } from './utils/createTypeormConn';
 import { User } from './entity/User';
 
-const getSchemas = (): GraphQLSchema[] => {
+const stitchSchemas = (): GraphQLSchema[] => {
   const folders = fs.readdirSync(path.join(__dirname, './modules'));
   return folders.map((folder) => {
     const { resolvers } = require(`./modules/${folder}/resolvers`);
@@ -21,7 +21,7 @@ const getSchemas = (): GraphQLSchema[] => {
 };
 
 export const startServer = async () => {
-  const schemas = getSchemas();
+  const schemas = stitchSchemas();
   const redis = new Redis();
   const server = new GraphQLServer({
     schema: mergeSchemas({ schemas }),
