@@ -9,16 +9,14 @@ import * as Redis from 'ioredis';
 import { createTypeormConn } from './utils/createTypeormConn';
 import { User } from './entity/User';
 
-const stitchSchemas = (): GraphQLSchema[] => {
-  const folders = fs.readdirSync(path.join(__dirname, './modules'));
-  return folders.map((folder) => {
+const stitchSchemas = (): GraphQLSchema[] =>
+  fs.readdirSync(path.join(__dirname, './modules')).map((folder) => {
     const { resolvers } = require(`./modules/${folder}/resolvers`);
     const typeDefs = importSchema(
       path.join(__dirname, `./modules/${folder}/schema.graphql`)
     );
     return makeExecutableSchema({ resolvers, typeDefs });
   });
-};
 
 export const startServer = async () => {
   const schemas = stitchSchemas();
