@@ -11,7 +11,7 @@ import {
 } from './errorMessages';
 import { createConfirmEmailLink } from '../../utils/CreateConfirmEmailLink';
 
-const schema = yup.object().shape({
+const validationSchema = yup.object().shape({
   email: yup.string().min(3, emailTooShort).max(255).email(invalidEmail),
   password: yup.string().min(3, invalidPassword).max(255),
 });
@@ -24,7 +24,7 @@ export const resolvers: ResolverMap = {
       { redis, url }
     ) => {
       try {
-        await schema.validate(args, { abortEarly: false });
+        await validationSchema.validate(args, { abortEarly: false });
       } catch (error) {
         return formatYupError(error);
       }
