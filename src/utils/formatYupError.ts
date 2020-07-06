@@ -1,12 +1,9 @@
 import { ValidationError } from 'yup';
 
-export const formatYupError = (err: ValidationError) => {
-  const errors: Array<{ path: string; message: string }> = [];
-  err.inner.forEach((e) => {
-    errors.push({
-      path: e.path,
-      message: e.message,
-    });
-  });
-  return errors;
-};
+export const formatYupError = (
+  err: ValidationError
+): Array<{ path: string; message: string }> =>
+  err.inner.map((e) => ({
+    path: e.path,
+    message: e.message,
+  }));
