@@ -4,10 +4,10 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { makeExecutableSchema, mergeSchemas } from 'graphql-tools';
 import { GraphQLSchema } from 'graphql';
-import * as Redis from 'ioredis';
 
 import { createTypeormConn } from './utils/createTypeormConn';
-import { User } from './entity/User';
+import { redis } from './redis';
+import { confirmEmail } from './routes/confirmEmail';
 
 const stitchSchemas = (): GraphQLSchema[] =>
   fs.readdirSync(path.join(__dirname, './modules')).map((folder) => {
@@ -20,7 +20,6 @@ const stitchSchemas = (): GraphQLSchema[] =>
 
 export const startServer = async () => {
   const schemas = stitchSchemas();
-  const redis = new Redis();
   const server = new GraphQLServer({
     schema: mergeSchemas({ schemas }),
     context: ({ request }) => ({
@@ -29,17 +28,7 @@ export const startServer = async () => {
     }),
   });
 
-  server.express.get('/confirm/:id', async (req, res) => {
-    const { id } = req.params;
-    const userId = await redis.get(id);
-    if (userId) {
-      await User.update({ id: userId }, { confirmed: true });
-      await redis.del(id);
-      res.status(200).send('User confirmed');
-    } else {
-      res.status(400).send('Invalid confrimation link');
-    }
-  });
+  server.express.get('/confirm/:id', confirmEmail);
 
   await createTypeormConn();
   const app = await server.start({
