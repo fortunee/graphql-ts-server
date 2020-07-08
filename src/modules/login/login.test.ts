@@ -1,7 +1,11 @@
 import { request } from 'graphql-request';
-import { invalidLoginErrorMessage, confirmEmailErrorMessage } from './errorMessages';
+import {
+  invalidLoginErrorMessage,
+  confirmEmailErrorMessage,
+} from './errorMessages';
 import { createTypeormConn } from '../../utils/createTypeormConn';
 import { User } from '../../entity/User';
+import { Connection } from 'typeorm';
 
 const loginMutation = (e: string, p: string) => `
     mutation {
@@ -41,12 +45,18 @@ describe('Login', () => {
   const email = 'sample@email.com';
   const password = 'samplepass';
 
+  let conn: Connection;
+
   beforeAll(async () => {
-    await createTypeormConn();
+    conn = await createTypeormConn();
     await request(
       process.env.TEST_HOST as string,
       registerMutation(email, password)
     );
+  });
+
+  afterAll(async () => {
+    conn.close();
   });
 
   it('should fail to login an invalid user', async () => {
@@ -62,8 +72,8 @@ describe('Login', () => {
   });
 
   it('should fail to login a user with a wrong password', async () => {
-    await loginExpect(email, 'wrongpass', invalidLoginErrorMessage)
-  })
+    await loginExpect(email, 'wrongpass', invalidLoginErrorMessage);
+  });
 
   it('should login succesfully login a valid user', async () => {
     await User.update({ email }, { confirmed: true });
@@ -71,7 +81,7 @@ describe('Login', () => {
       process.env.TEST_HOST as string,
       loginMutation(email, password)
     );
-  
-    expect(res).toEqual({ login: null })
+
+    expect(res).toEqual({ login: null });
   });
 });

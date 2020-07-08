@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { GraphQLServer } from 'graphql-yoga';
 import * as session from 'express-session';
 import * as connectRedis from 'connect-redis';
@@ -21,7 +22,9 @@ export const startServer = async () => {
 
   server.express.use(
     session({
-      store: new RedisStore({}),
+      store: new RedisStore({
+        client: redis as any
+      }),
       name: 'qid',
       secret: process.env.SESSION_SECRET as string,
       resave: false,
@@ -36,7 +39,7 @@ export const startServer = async () => {
 
   const cors = {
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: process.env.CLIENT_URL as string,
   };
 
   server.express.get('/confirm/:id', confirmEmail);
