@@ -9,8 +9,8 @@ import {
   invalidEmail,
   invalidPassword,
 } from './errorMessages';
-import { createConfirmEmailLink } from '../../utils/CreateConfirmEmailLink';
-import { sendEmail } from '../../utils/sendEmail';
+// import { createConfirmEmailLink } from '../../utils/CreateConfirmEmailLink';
+// import { sendEmail } from '../../utils/sendEmail';
 
 const validationSchema = yup.object().shape({
   email: yup.string().min(3, emailTooShort).max(255).email(invalidEmail),
@@ -22,7 +22,7 @@ export const resolvers: ResolverMap = {
     register: async (
       _,
       args: GQL.IRegisterOnMutationArguments,
-      { redis, url }
+      // { redis, url }
     ) => {
       try {
         await validationSchema.validate(args, { abortEarly: false });
@@ -52,7 +52,7 @@ export const resolvers: ResolverMap = {
 
       await user.save();
 
-      await sendEmail(email, await createConfirmEmailLink(url, user.id, redis));
+      // await sendEmail(email, await createConfirmEmailLink(url, user.id, redis));
       return null;
     },
   },

@@ -15,12 +15,16 @@ const errorResponse = [
 
 export const resolvers: ResolverMap = {
   Mutation: {
-    login: async (_, { email, password }: GQL.ILoginOnMutationArguments) => {
+    login: async (
+      _,
+      { email, password }: GQL.ILoginOnMutationArguments,
+      { session }
+    ) => {
       const user = await User.findOne({ where: { email } });
       if (!user) {
         return errorResponse;
       }
-      
+
       const isValidPassword = await bcrypt.compare(password, user.password);
 
       if (!isValidPassword) {
@@ -30,6 +34,8 @@ export const resolvers: ResolverMap = {
       if (!user.confirmed) {
         return [{ path: 'email', message: confirmEmailErrorMessage }];
       }
+
+      session.userId = user.id;
 
       return null;
     },
